@@ -1,0 +1,7 @@
+mbiz_order_history:
+    ui:
+        click_for_more_details: 'Cliquez pour plus de détails'
+        firewall: 'Firewall'
+        ip: 'IP'
+        order_states: 'Status de commande'
+        unkown: 'Inconnu'

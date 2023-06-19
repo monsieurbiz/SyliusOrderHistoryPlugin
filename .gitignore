@@ -1,0 +1,11 @@
+/vendor/
+/composer.lock
+
+/tests/Application
+
+/package-lock.json
+
+/.php-version
+/php.ini
+
+/.php-cs-fixer.cache

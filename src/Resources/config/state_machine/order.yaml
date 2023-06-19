@@ -1,0 +1,16 @@
+winzou_state_machine:
+    sylius_order:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_create:
+                    on: 'create'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_ORDER")', '"new"' ]
+                monsieur_biz_order_history_notify_cancel:
+                    on: 'cancel'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_ORDER")', '"cancelled"' ]
+                monsieur_biz_order_history_notify_fulfill:
+                    on: 'fulfill'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_ORDER")', '"fulfilled"' ]

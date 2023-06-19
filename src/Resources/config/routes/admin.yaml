@@ -1,0 +1,11 @@
+monsieurbiz_order_history_admin_event_index:
+    path: /events/{orderId}
+    methods: [GET]
+    defaults:
+        _controller: monsieurbiz_order_history.controller.order_history_event::indexAction
+        _sylius:
+            template: "@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/_list.html.twig"
+            repository:
+                method: getByOrderId
+                arguments:
+                    - $orderId

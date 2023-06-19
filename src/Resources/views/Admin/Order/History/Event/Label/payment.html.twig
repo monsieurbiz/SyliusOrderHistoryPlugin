@@ -1,0 +1,13 @@
+{%
+    set viewOptions = {
+    authorized: { icon: "check", color: "orange" } ,
+    failed: { icon: "ban", color: "red" } ,
+    processing: { icon: "hourglass outline", color: "violet" } ,
+    refunded: { icon: "reply all", color: "purple" } ,
+}
+%}
+
+<span class="ui {{ viewOptions[event.label]['color'] }} label">
+    <i class="{{ viewOptions[event.label]['icon'] }} icon"></i>
+    {{ event.label|replace({'_': ' '})|capitalize }}
+</span>

@@ -1,0 +1,10 @@
+parameters:
+    monsieurbiz_order_history.messenger.default_transport: 'order_history_event_sync'
+
+framework:
+    messenger:
+        transports:
+            order_history_event_sync:
+                dsn: 'sync://'
+        routing:
+            MonsieurBiz\SyliusOrderHistoryPlugin\Message\OrderHistoryEventMessageInterface: '%monsieurbiz_order_history.messenger.default_transport%'
