@@ -1,0 +1,18 @@
+<ul class="ui relaxed list">
+    {% for label, value in event.details  %}
+        {% if value is not empty %}
+            <li>
+                <span class="label">{{ label|replace({'_': ' '})|capitalize }}</span>:
+                {% if value is iterable %}
+                    <ul class="ui list">
+                        {% for sublabel, subvalue in value %}
+                            <li><span class="label">{{ sublabel|replace({'_': ' '})|capitalize }}</span>: {{ subvalue }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    {{ value }}
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

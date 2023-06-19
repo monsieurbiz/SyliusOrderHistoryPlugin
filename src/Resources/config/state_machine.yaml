@@ -1,0 +1,5 @@
+imports:
+    - { resource: 'state_machine/checkout.yaml' }
+    - { resource: 'state_machine/order.yaml' }
+    - { resource: 'state_machine/payment.yaml' }
+    - { resource: 'state_machine/shipment.yaml' }

@@ -1,0 +1,7 @@
+sylius_ui:
+    events:
+        sylius.admin.order.history.content:
+            blocks:
+                monsieurbiz_multichannel_admin_order_history_content:
+                    template: '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/_content.html.twig'
+                    priority: 0

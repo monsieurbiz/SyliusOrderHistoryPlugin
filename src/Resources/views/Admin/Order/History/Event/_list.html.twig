@@ -1,0 +1,68 @@
+<style>
+    .meta .state {
+        color: #0E6EB8;
+        opacity: 0.6;
+        font-weight: bold;
+    }
+    .list .label {
+        font-style: italic;
+    }
+    .order-event-label {
+        text-align: center!important;
+        width: 6em!important;
+    }
+</style>
+
+<div class="ui segment">
+    <div class="ui large feed">
+        {% set previousCheckoutState = null %}
+        {% set previousOrderState = null %}
+        {% set previousShippingState = null %}
+        {% set previousPaymentState = null %}
+        {% for event in order_history_events %}
+            {% set hasDetails = event.details|length > 0 %}
+            <div class="event order-event">
+                <div class="label order-event-label">
+                    {% include [
+                        '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/Type/' ~ event.type ~ '.html.twig',
+                        '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/Type/unknown.html.twig'
+                    ] %}
+                </div>
+                <div class="ui content{% if hasDetails %} accordion{% endif %}" >
+                    <div class="summary title">
+                        <span {% if hasDetails %} data-tooltip="{{ 'mbiz_order_history.ui.click_for_more_details'|trans }}" data-position="top left"{% endif %}>
+                            {% include [
+                                '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/Label/' ~ event.type ~ '_' ~ event.label ~ '.html.twig',
+                                '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/Label/' ~ event.label ~ '.html.twig',
+                                '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/Label/' ~ event.type ~ '.html.twig',
+                                '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/Label/unknown.html.twig',
+                            ] ignore missing %}
+                        </span>
+                        {% include '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/_identity.html.twig' %}
+                    </div>
+                    <div class="extra text content">
+                        {% if hasDetails %}
+                            {% include '@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/_details.html.twig' %}
+                        {% endif %}
+                    </div>
+                    <div class="meta">
+                        <p>
+                            {{ 'mbiz_order_history.ui.order_states'|trans }}:
+                            <spans {% if previousCheckoutState != null and event.checkoutState != previousCheckoutState %}class="state"{% endif %}><i class="shopping basket icon"></i> {{ event.checkoutState }}</spans> /
+                            <spans {% if previousOrderState != null and event.orderState != previousOrderState %}class="state"{% endif %}><i class="shopping cart icon"></i> {{ event.orderState }}</spans> /
+                            <spans {% if previousShippingState != null and event.shippingState != previousShippingState %}class="state"{% endif %}><i class="truck icon"></i> {{ event.shippingState }}</spans> /
+                            <spans {% if previousPaymentState != null and event.paymentState != previousPaymentState %}class="state"{% endif %}><i class="credit card outline icon"></i> {{ event.paymentState }}</spans>
+                            {% set previousCheckoutState = event.checkoutState %}
+                            {% set previousOrderState = event.orderState %}
+                            {% set previousShippingState = event.shippingState %}
+                            {% set previousPaymentState = event.paymentState %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% if not loop.last %}
+                <div class="ui divider"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

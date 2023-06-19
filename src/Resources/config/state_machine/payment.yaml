@@ -1,0 +1,32 @@
+winzou_state_machine:
+    sylius_payment:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_create:
+                    on: 'create'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"new"' ]
+                monsieur_biz_order_history_notify_process:
+                    on: 'process'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"processing"' ]
+                monsieur_biz_order_history_notify_authorize:
+                    on: 'authorize'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"authorized"' ]
+                monsieur_biz_order_history_notify_complete:
+                    on: 'complete'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"completed"' ]
+                monsieur_biz_order_history_notify_fail:
+                    on: 'fail'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"failed"' ]
+                monsieur_biz_order_history_notify_cancel:
+                    on: 'cancel'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"cancelled"' ]
+                monsieur_biz_order_history_notify_refund:
+                    on: 'refund'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object.getOrder()', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_PAYMENT")', '"refunded"' ]

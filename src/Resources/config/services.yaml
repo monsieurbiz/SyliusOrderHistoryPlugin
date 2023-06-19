@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    _instanceof:
+        MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface:
+            public: true
+
+    MonsieurBiz\SyliusOrderHistoryPlugin\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations}'

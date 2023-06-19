@@ -1,0 +1,6 @@
+doctrine:
+    orm:
+        dql:
+            string_functions:
+                field: DoctrineExtensions\Query\Mysql\Field
+                find_in_set: DoctrineExtensions\Query\Mysql\FindInSet

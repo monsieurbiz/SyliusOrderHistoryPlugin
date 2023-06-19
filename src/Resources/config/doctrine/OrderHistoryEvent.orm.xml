@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <mapped-superclass name="MonsieurBiz\SyliusOrderHistoryPlugin\Entity\OrderHistoryEvent" table="monsieurbiz_order_history_event">
+
+        <indexes>
+            <index columns="order_id"/>
+        </indexes>
+        <id name="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="orderId" type="integer" column="order_id"/>
+        <field name="type"/>
+        <field name="label"/>
+        <field name="checkoutState" column="checkout_state" />
+        <field name="orderState" column="order_state" />
+        <field name="paymentState" column="payment_state" />
+        <field name="shippingState" column="shipping_state" />
+        <field name="details" type="array" />
+        <field name="ip" length="40" nullable="true" />
+        <field name="firewall" nullable="true" />
+
+        <field name="createdAt" column="created_at" type="datetime_immutable">
+            <gedmo:timestampable on="create"/>
+        </field>
+        <field name="updatedAt" column="updated_at" type="datetime">
+            <gedmo:timestampable on="update"/>
+        </field>
+
+        <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUserInterface">
+            <join-column name="shop_user_id" />
+        </many-to-one>
+
+        <many-to-one field="adminUser" target-entity="Sylius\Component\Core\Model\AdminUser">
+            <join-column name="admin_user_id" />
+        </many-to-one>
+
+    </mapped-superclass>
+</doctrine-mapping>

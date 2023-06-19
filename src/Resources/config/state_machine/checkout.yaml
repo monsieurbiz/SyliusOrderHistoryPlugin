@@ -1,0 +1,28 @@
+winzou_state_machine:
+    sylius_order_checkout:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_address:
+                    on: 'address'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"addressed"' ]
+                monsieur_biz_order_history_notify_skip_shipping:
+                    on: 'skip_shipping'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"shipping_skipped"' ]
+                monsieur_biz_order_history_notify_select_shipping:
+                    on: 'select_shipping'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithShipmentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"shipping_selected"' ]
+                monsieur_biz_order_history_notify_skip_payment:
+                    on: 'skip_payment'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"payment_skipped"' ]
+                monsieur_biz_order_history_notify_select_payment:
+                    on: 'select_payment'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"payment_selected"' ]
+                monsieur_biz_order_history_notify_complete:
+                    on: 'complete'
+                    do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
+                    args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"completed"' ]
