@@ -1,0 +1,75 @@
+<div class="ui segment">
+    <div class="ui large feed">
+        {% set previousCheckoutState = null %}
+        {% set previousOrderState = null %}
+        {% set previousShippingState = null %}
+        {% set previousPaymentState = null %}
+        {% for event in order_history_events %}
+            <div class="event">
+                <div class="label" style="text-align: center; width: 6em;">
+                    {% if event.type == 'checkout' %}
+                        <i class="shopping basket icon"></i>
+                    {% elseif event.type == 'order' %}
+                        <i class="shopping cart icon"></i>
+                    {% elseif event.type == 'shipment' %}
+                        <i class="truck icon"></i>
+                    {% elseif event.type == 'payment' %}
+                        <i class="credit card outline icon"></i>
+                    {% endif %}
+                    {{ event.type|replace({'_': ' '})|capitalize }}
+                </div>
+                <div class="content">
+                    <div class="summary">
+                        {{ event.label|replace({'_': ' '})|capitalize }}
+                        {% if event.shopUser.username|default(null) is not null %}
+                            {% set shopUserLink = path('sylius_admin_customer_show', {id: event.shopUser.customer.id}) %}
+                            {% set user = '<a href="' ~ shopUserLink ~ '"><i class="user outline icon"></i> ' ~ event.shopUser.username ~ '</a>' %}
+                        {% elseif event.adminUser.username|default(null) is not null %}
+                            {% set adminUserLink = path('sylius_admin_admin_user_update', {id: event.adminUser.id}) %}
+                            {% set user = '<a href="' ~ adminUserLink ~ '"><i class="lock icon"></i> ' ~ event.adminUser.username ~ '</a>' %}
+                        {% else %}
+                            {% set user = '<i class="user secret icon"></i> ' ~ ' anonymous' %}
+                        {% endif %}
+                        <div class="date">
+                            {{ event.createdAt|format_datetime('full', 'long', locale='fr') }} (IP: {{ event.ip }} | Firewall: {{ event.firewall }} | {{ user|raw }} )
+                        </div>
+                    </div>
+                    <div class="extra text">
+                        {% if event.details|length > 0 %}
+                            <ul class="ui relaxed list">
+                                {% for label, value in event.details %}
+                                    <li>
+                                        {{ label|replace({'_': ' '})|capitalize }}:
+                                        {% if value is iterable %}
+                                            <ul class="ui list">
+                                                {% for sublabel, subvalue in value %}
+                                                    <li>{{ sublabel|replace({'_': ' '})|capitalize }}: {{ subvalue }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="meta">
+                        <p>
+                            Order states:
+                            <spans {% if previousCheckoutState != null and event.checkoutState != previousCheckoutState %}style="color: #FF1493"{% endif %}><i class="shopping basket icon"></i> {{ event.checkoutState }}</spans> /
+                            <spans {% if previousOrderState != null and event.orderState != previousOrderState %}style="color: #FF1493"{% endif %}><i class="shopping cart icon"></i> {{ event.orderState }}</spans> /
+                            <spans {% if previousShippingState != null and event.shippingState != previousShippingState %}style="color: #FF1493"{% endif %}><i class="truck icon"></i> {{ event.shippingState }}</spans> /
+                            <spans {% if previousPaymentState != null and event.paymentState != previousPaymentState %}style="color: #FF1493"{% endif %}><i class="credit card outline icon"></i> {{ event.paymentState }}</spans>
+
+                            {% set previousCheckoutState = event.checkoutState %}
+                            {% set previousOrderState = event.orderState %}
+                            {% set previousShippingState = event.shippingState %}
+                            {% set previousPaymentState = event.paymentState %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

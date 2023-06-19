@@ -1,0 +1,21 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - %rootDir%/src/
+
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    excludePaths:
+        # Makes PHPStan crash
+        - 'src/DependencyInjection/MonsieurBizSyliusOrderHistoryExtension.php'
+
+        # Test dependencies
+        - 'tests/Application/**/*'
+
+    ignoreErrors:
+        - '#^Method MonsieurBiz\\SyliusOrderHistoryPlugin\\Repository\\OrderHistoryEventRepository\:\:getByOrder\(\) should return array but returns mixed\.$#'

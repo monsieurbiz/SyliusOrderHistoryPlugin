@@ -1,0 +1,6 @@
+imports:
+    - { resource: 'resources.yaml' }
+    - { resource: 'messenger.yaml' }
+    - { resource: 'sylius/ui.yaml' }
+    - { resource: 'state_machine.yaml' }
+    - { resource: 'doctrine.yaml' }

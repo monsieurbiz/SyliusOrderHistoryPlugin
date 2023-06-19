@@ -1,0 +1,233 @@
+winzou_state_machine:
+    sylius_order_checkout:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_address:
+                    on: 'address'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: 
+                        - 'object'
+                        - '"checkout"'
+                        - '"addressed"'
+                        - | 
+                            {
+                                email: object.getCustomer().getEmail(),
+                                billing_firstname: object.getBillingAddress() ? object.getBillingAddress().getFirstName() : null,
+                                billing_lastname: object.getBillingAddress() ? object.getBillingAddress().getLastName() : null,
+                                billing_company: object.getBillingAddress() ? object.getBillingAddress().getCompany() : null,
+                                billing_street: object.getBillingAddress() ? object.getBillingAddress().getStreet() : null,
+                                billing_city: object.getBillingAddress() ? object.getBillingAddress().getCity() : null,
+                                billing_postcode: object.getBillingAddress() ? object.getBillingAddress().getPostcode() : null,
+                                billing_country_code: object.getBillingAddress() ? object.getBillingAddress().getCountryCode() : null,
+                                billing_phone_number: object.getBillingAddress() ? object.getBillingAddress().getPhoneNumber() : null,
+                                shipping_firstname: object.getShippingAddress() ? object.getShippingAddress().getFirstName() : null,
+                                shipping_lastname: object.getShippingAddress() ? object.getShippingAddress().getLastName() : null,
+                                shipping_company: object.getShippingAddress() ? object.getShippingAddress().getCompany() : null,
+                                shipping_street: object.getShippingAddress() ? object.getShippingAddress().getStreet() : null,
+                                shipping_city: object.getShippingAddress() ? object.getShippingAddress().getCity() : null,
+                                shipping_postcode: object.getShippingAddress() ? object.getShippingAddress().getPostcode() : null,
+                                shipping_country_code: object.getShippingAddress() ? object.getShippingAddress().getCountryCode() : null,
+                                shipping_phone_number: object.getShippingAddress() ? object.getShippingAddress().getPhoneNumber() : null
+                            }
+                monsieur_biz_order_history_notify_skip_shipping:
+                    on: 'skip_shipping'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: [ 'object', '"checkout"', '"shipping_skipped"' ]
+                monsieur_biz_order_history_notify_select_shipping:
+                    on: 'skip_shipping'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object'
+                        - '"checkout"'
+                        - '"shipping_selected"'
+                        - |
+                            {
+                                method_code: object.getShipments().last() ? object.getShipments().last().getMethod().getCode() : null,
+                                method_name: object.getShipments().last() ? object.getShipments().last().getMethod().getName() : null,
+                                state: object.getShipments().last() ? object.getShipments().last().getState() : null,
+                            }
+                monsieur_biz_order_history_notify_skip_payment:
+                    on: 'skip_payment'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: [ 'object', '"checkout"', '"payment_skipped"' ]
+                monsieur_biz_order_history_notify_select_payment:
+                    on: 'select_payment'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object'
+                        - '"checkout"'
+                        - '"payment_selected"'
+                        - |
+                            {
+                                method_code: object.getPayments().last() ? object.getPayments().last().getMethod().getCode() : null,
+                                method_name: object.getPayments().last() ? object.getPayments().last().getMethod().getName() : null,
+                                state: object.getPayments().last() ? object.getPayments().last().getState() : null
+                            }
+                monsieur_biz_order_history_notify_complete:
+                    on: 'complete'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: [ 'object', '"checkout"', '"completed"' ]
+
+    sylius_order:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_create:
+                    on: 'create'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: [ 'object', '"order"', '"new"' ]
+                monsieur_biz_order_history_notify_cancel:
+                    on: 'cancel'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: [ 'object', '"order"', '"cancelled"' ]
+                monsieur_biz_order_history_notify_fulfill:
+                    on: 'fulfill'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args: [ 'object', '"order"', '"fulfilled"' ]
+
+    sylius_shipment:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_create:
+                    on: 'create'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"shipment"'
+                        - '"new"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState()
+                            }
+                monsieur_biz_order_history_notify_cancel:
+                    on: 'cancel'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"shipment"'
+                        - '"cancelled"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState()
+                            }
+                monsieur_biz_order_history_notify_ship:
+                    on: 'ship'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"shipment"'
+                        - '"shipped"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                tracking: object.getTracking(),
+                                state: object.getState()
+                            }
+
+
+    sylius_payment:
+        callbacks:
+            after:
+                monsieur_biz_order_history_notify_create:
+                    on: 'create'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"new"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }
+                monsieur_biz_order_history_notify_process:
+                    on: 'process'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"processing"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }
+                monsieur_biz_order_history_notify_authorize:
+                    on: 'authorize'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"authorized"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }
+                monsieur_biz_order_history_notify_complete:
+                    on: 'complete'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"completed"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }
+                monsieur_biz_order_history_notify_fail:
+                    on: 'fail'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"failed"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }
+                monsieur_biz_order_history_notify_cancel:
+                    on: 'cancel'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"cancelled"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }
+                monsieur_biz_order_history_notify_refund:
+                    on: 'refund'
+                    do: [ '@monsieurbiz_order_history.notifier', 'notifyEvent' ]
+                    args:
+                        - 'object.getOrder()'
+                        - '"payment"'
+                        - '"refunded"'
+                        - |
+                            {
+                                method_code: object.getMethod() ? object.getMethod().getCode() : null,
+                                method_name: object.getMethod() ? object.getMethod().getName() : null,
+                                tracking: object.getTracking(),
+                                state: object.getState(),
+                                details: object.getDetails()
+                            }

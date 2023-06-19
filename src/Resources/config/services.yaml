@@ -1,0 +1,22 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    MonsieurBiz\SyliusOrderHistoryPlugin\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations}'
+        
+    MonsieurBiz\SyliusOrderHistoryPlugin\EventListener\OrderEventListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.order_item.post_add, method: onOrderItemAdded }
+
+    MonsieurBiz\SyliusOrderHistoryPlugin\Factory\OrderHistoryEventFactory:
+        decorates: monsieurbiz_order_history.factory.order_history_event
+        arguments: [ '@.inner' ]
+        public: false
+
+    monsieurbiz_order_history.notifier:
+        class: MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier
+        public: true

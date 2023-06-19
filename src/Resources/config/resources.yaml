@@ -1,0 +1,7 @@
+sylius_resource:
+    resources:
+        monsieurbiz_order_history.order_history_event:
+            classes:
+                model: MonsieurBiz\SyliusOrderHistoryPlugin\Entity\OrderHistoryEvent
+                interface: MonsieurBiz\SyliusOrderHistoryPlugin\Entity\OrderHistoryEventInterface
+                repository: MonsieurBiz\SyliusOrderHistoryPlugin\Repository\OrderHistoryEventRepository
