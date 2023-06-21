@@ -29,9 +29,7 @@ Install the plugin via composer:
 composer require monsieurbiz/sylius-order-history-plugin
 ```
 
-<!-- The section on the flex recipe will be displayed when the flex recipe will be available on contrib repo
-<details><summary>For the installation without flex, follow these additional steps</summary>
--->
+### For the installation without flex, follow these additional steps
 
 Change your `config/bundles.php` file to add this line for the plugin declaration:
 
