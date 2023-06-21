@@ -54,6 +54,33 @@ cp -Rv vendor/monsieurbiz/sylius-order-history-plugin/recipes/1.0/config/ config
 
 Show any order on the Sylius backend and click on the top right `History` button.
 
+## How does it work?
+
+This plugin is based on the state machine events. It uses native Winzou state machine callback system to save named 
+order events when they are triggered. 
+
+```yaml
+# src/Resources/config/state_machine/checkout.yaml
+winzou_state_machine:
+  sylius_order_checkout:
+    callbacks:
+      after:
+        monsieur_biz_order_history_notify_address:
+          on: 'address'
+          do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier', 'notifyEvent' ]
+          args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"addressed"' ]
+```
+
+Callback dedicated notifier service / actions who add different details following context:
+* `\MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier` is a basic notifier with no particular details 
+    except the given ones as parameters.
+* `\MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier` is a notifier dedicated to
+  address events. It adds the billing and shipping address data.
+* `\MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\ShipmentOrderHistoryNotifier` is a notifier dedicated to shipment
+  events. It adds the shipment method name and the shipment state.
+* `\MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\PaymentOrderHistoryNotifier` is a notifier dedicated to payment 
+    events. It adds the payment method name and the payment state.
+
 ## How to
 
 * [Add more details on existing events](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/blob/master/docs/HOW-TO.md#add-more-details-on-existing-events)
