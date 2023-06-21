@@ -16,12 +16,12 @@
 [![Tests Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusOrderHistoryPlugin/tests.yml?branch=master&logo=github)](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/actions?query=workflow%3ATests)
 [![Security Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusOrderHistoryPlugin/security.yml?branch=master&label=security&logo=github)](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/actions?query=workflow%3ASecurity)
 
-This plugin saves order events and allows you to display them in the order history as a timeline.
+This plugin saves order events and allows you to display them in the order history as a timeline. It based on state
+machine events.
 
 ![Demo of the Order History](docs/images/demo.png)
 
 ## Installation
-
 
 Install the plugin via composer:
 
@@ -50,113 +50,16 @@ Copy the plugin configuration files in your `config` folder:
 cp -Rv vendor/monsieurbiz/sylius-order-history-plugin/recipes/1.0/config/ config
 ```
 
-## Add custom events in code
+## Getting started
 
-```php
-<?php
-declare(strict_types=1);
+Show any order on the Sylius backend and click on the top right `History` button.
 
-namespace MonsieurBiz\SyliusOrderHistoryPlugin\EventListener;
+## How to
 
-use MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface;
-use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use App\Erp\ErpClient;
-
-final class OrderEventListener
-{
-    public function __construct(
-        private OrderHistoryNotifierInterface $notifier,
-        private ErpClient $erpClient,
-    ){
-    }
-
-    public function onOrderItemAdded(ResourceControllerEvent $event): void
-    {
-        $order = $event->getSubject();
-        $erpOrderNumber = $this->erpClient->sendOrder($order);
-        
-        # Use the event notifier with your own information
-        $this->notifier->notifyEvent($order, 'erp', 'send_order', [
-            'erp_order_number' => $erpOrderNumber,
-        ]);
-    }
-}
-```
-
-## Add custom event in state machine
-
-There is two ways to add custom events in state machine.
-
-### Use basic notifier with "on-the-fly" details
-
-This is the easiest way to add custom events in state machine. You can use basic [expression language](https://symfony.com/doc/current/reference/formats/expression_language.html)
-and have acces to two vars: `object` and `event`.
-
-```yaml
-winzou_state_machine:
-  sylius_order_checkout:
-    callbacks:
-      after:
-        app_order_history_notify_custom:
-          on: 'address'
-          do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier', 'notifyEvent' ]
-          args:
-            - 'object'
-            - '"my_type"'
-            - '"my_custom_event"'
-            - |
-              {
-                  email: object.getCustomer().getEmail(),
-                  amount: object.getTotal(),
-              }
-```
-
-### Using your own notifier
-
-It would be useful to use your own notifier for more complex events and/or if you want to inject some services in your notifier.
-Your notifier had to implements `OrderHistoryNotifierInterface`. Extends `AbstractOrderHistoryNotifier` is recommended to avoid boilerplate.
-
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Notifier;
-
-use Sylius\Component\Core\Model\OrderInterface;
-
-final class MyCustomNotifier extends AbstractOrderHistoryNotifier implements OrderHistoryNotifierInterface
-{
-    public function notifyEvent(OrderInterface $order, string $type, string $label, array $details = []): void
-    {
-        $details['email'] = $order->getCustomer()?->getEmail();
-        $details['amount'] = $order->getCustomer()?->getEmail();
-        parent::notifyEvent($order, $type, $label, $details);
-    }
-}
-```
-
-You can now use your own notifier in state machine.
-
-```yaml
-winzou_state_machine:
-    sylius_order_checkout:
-        callbacks:
-            after:
-                app_order_history_notify_custom:
-                    on: 'address'
-                    do: [ '@App\Notifier\MyCustomNotifier', 'notifyEvent' ]
-                    args: [ 'object', '"my_type"', '"my_custom_event"' ]
-```
-
-### Add custom type and label display in history timeline
-
-You could add dedicated label and title display in history timeline for your custom event type and event label. There's native builded 
-templates for common label `new`, `completed` or `cancelled` and default ones for unkwnon types and labels. But if you want to add your 
-own, you can do it by adding a new templates in the following paths:
-
-* `templates/bundles/MonsieurBizSyliusOrderHistoryPlugin/Event/Type/{type}.html.twig`
-* `templates/bundles/MonsieurBizSyliusOrderHistoryPlugin/Event/Label/{label}.html.twig`
+* [Add more details on existing events](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/blob/master/docs/HOW-TO.md#add-more-details-on-existing-events)
+* [Add custom event in code](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/blob/master/docs/HOW-TO.md#add-more-details-on-existing-events)
+* [Add custom event in state machine](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/blob/master/docs/HOW-TO.md#add-more-details-on-existing-events)
+* [Add custom type and label display in history timeline](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/blob/master/docs/HOW-TO.md#add-more-details-on-existing-events)
 
 ## Contributing
 
