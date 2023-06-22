@@ -16,7 +16,7 @@
 [![Tests Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusOrderHistoryPlugin/tests.yml?branch=master&logo=github)](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/actions?query=workflow%3ATests)
 [![Security Status](https://img.shields.io/github/actions/workflow/status/monsieurbiz/SyliusOrderHistoryPlugin/security.yml?branch=master&label=security&logo=github)](https://github.com/monsieurbiz/SyliusOrderHistoryPlugin/actions?query=workflow%3ASecurity)
 
-This plugin saves order events and allows you to display them in the order history as a timeline. It based on state
+This plugin saves order events and allows you to display them in the order history as a timeline. It is based on state
 machine events.
 
 ![Demo of the Order History](docs/images/demo.png)
@@ -54,7 +54,7 @@ Show any order on the Sylius backend and click on the top right `History` button
 
 ## How does it work?
 
-This plugin is based on the state machine events. It uses native Winzou state machine callback system to save named 
+This plugin is based on the state machine events. It uses the native Winzou state machine callback system to save named 
 order events when they are triggered. 
 
 ```yaml

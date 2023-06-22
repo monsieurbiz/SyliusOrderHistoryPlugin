@@ -35,8 +35,8 @@ final class OrderHistoryWithAddressesDataNotifierDecorator
 
 ## Add custom event in code
 
-It could be usefull to fired your own order timeline event. For example, you could notify when an order is sent to your
-ERP or when an email is sent to your customer.
+It could be useful to fire your own order timeline event. For example, you could notify when an order is sent to your
+ERP or when emails are sent to your customers.
 
 ```php
 <?php
@@ -71,13 +71,13 @@ final class OrderEventListener
 
 ## Add custom event in state machine
 
-There is two ways to add custom events in state machine.
+There are two ways to add custom events in the state machine.
 
 ### Use basic notifier with "on-the-fly" details
 
-This is the easiest way to add custom events in state machine. You can use
+This is the easiest way to add custom events in the state machine. You can use
 basic [expression language](https://symfony.com/doc/current/reference/formats/expression_language.html)
-and have acces to two vars: `object` and `event`.
+and have access to two vars: `object` and `event`.
 
 ```yaml
 winzou_state_machine:
@@ -124,7 +124,7 @@ final class MyCustomNotifier extends AbstractOrderHistoryNotifier implements Ord
 }
 ```
 
-You can now use your own notifier in state machine.
+You can now use your own notifier in the state machine.
 
 ```yaml
 winzou_state_machine:
