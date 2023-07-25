@@ -9,5 +9,10 @@
 {% endif %}
 <div class="date">
     {{ event.createdAt|format_datetime('full', 'long', locale='fr') }}
-    ({{ 'mbiz_order_history.ui.ip'|trans }}: {{ event.ip }} | {{ 'mbiz_order_history.ui.firewall'|trans }}: {{ event.firewall }} | {{ user|raw }} )
+    (
+    {{ 'mbiz_order_history.ui.ip'|trans }}: {{ event.ip }} | {{ 'mbiz_order_history.ui.firewall'|trans }}: {{ event.firewall }} | {{ user|raw }}
+    {% if hasDetails %}
+        | <span>{{ 'mbiz_order_history.ui.click_for_more_details'|trans }}</span>
+    {% endif %}
+    )
 </div>
