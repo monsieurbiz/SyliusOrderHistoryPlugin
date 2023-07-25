@@ -48,6 +48,14 @@ Copy the plugin configuration files in your `config` folder:
 cp -Rv vendor/monsieurbiz/sylius-order-history-plugin/recipes/1.0/config/ config
 ```
 
+### Doctrine migration
+
+In order to create dedicated tables for the plugin, don't forget to execute doctrine migration commands:
+
+```bash
+bin/console doctrine:migrations:migrate
+```
+
 ## Getting started
 
 Show any order on the Sylius backend and click on the top right `History` button.
