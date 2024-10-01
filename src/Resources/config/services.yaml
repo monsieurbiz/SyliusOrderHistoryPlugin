@@ -11,3 +11,8 @@ services:
     MonsieurBiz\SyliusOrderHistoryPlugin\:
         resource: '../../*'
         exclude: '../../{Entity,Migrations}'
+
+    MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifier'
+    MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryWithAddressesDataNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier'
+    MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryWithPaymentDataNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier'
+    MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryWithShipmentDataNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithShipmentDataNotifier'

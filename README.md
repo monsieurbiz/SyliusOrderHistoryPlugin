@@ -52,8 +52,10 @@ Show any order on the Sylius backend and click on the top right `History` button
 
 ## How does it work?
 
-This plugin is based on the state machine events. It uses the native Winzou state machine callback system to save named 
-order events when they are triggered. 
+This plugin is based on the state machine events. It uses both the native Winzou state machine callback system and
+Symfony Workflow events to save named order events when they are triggered. 
+
+Depending on your `sylius_state_machine_abstraction.default_adapter` configuration:
 
 ```yaml
 # src/Resources/config/state_machine/checkout.yaml
@@ -65,6 +67,47 @@ winzou_state_machine:
           on: 'address'
           do: [ '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier', 'notifyEvent' ]
           args: [ 'object', 'constant("MonsieurBiz\\SyliusOrderHistoryPlugin\\Entity\\OrderHistoryEventInterface::TYPE_CHECKOUT")', '"addressed"' ]
+```
+
+or
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\EventListener\Workflow;
+
+use MonsieurBiz\SyliusOrderHistoryPlugin\Entity\OrderHistoryEventInterface;
+use MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface;
+use MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier;
+use Sylius\Component\Core\Model\OrderInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\Workflow\Event\CompletedEvent;
+
+final class CheckoutWorkflowEventListener
+{
+    public function __construct(
+        #[Autowire(service: OrderHistoryWithAddressesDataNotifier::class)]
+        private OrderHistoryNotifierInterface $orderHistoryWithAddressesDataNotifier,
+    ) {
+    }
+
+    #[AsEventListener(event: 'workflow.sylius_order_checkout.completed.addressed')]
+    public function addressed(CompletedEvent $event): void
+    {
+        $order = $event->getSubject();
+        if (!$order instanceof OrderInterface) {
+            return;
+        }
+
+        $this->orderHistoryWithAddressesDataNotifier->notifyEvent(
+            $order,
+            OrderHistoryEventInterface::TYPE_CHECKOUT,
+            'addressed',
+        );
+    }
+}
 ```
 
 Callback dedicated notifier service / actions who add different details following context:
