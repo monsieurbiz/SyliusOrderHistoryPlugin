@@ -16,6 +16,3 @@ parameters:
 
         # Test dependencies
         - 'tests/Application/**/*'
-
-    ignoreErrors:
-        - '#^Method MonsieurBiz\\SyliusOrderHistoryPlugin\\Repository\\OrderHistoryEventRepository\:\:getByOrderId\(\) should return array but returns mixed\.$#'

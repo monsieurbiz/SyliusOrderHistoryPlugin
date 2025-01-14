@@ -1,13 +1,13 @@
 .DEFAULT_GOAL := help
 SHELL=/bin/bash
 APP_DIR=tests/Application
-SYLIUS_VERSION=1.12.0
+SYLIUS_VERSION=1.13.0
 SYMFONY=cd ${APP_DIR} && symfony
 COMPOSER=symfony composer
 CONSOLE=${SYMFONY} console
 export COMPOSE_PROJECT_NAME=order-history
 PLUGIN_NAME=sylius-${COMPOSE_PROJECT_NAME}-plugin
-COMPOSE=docker-compose
+COMPOSE=docker compose
 YARN=yarn
 DOCTRINE_MIGRATIONS_NAMESPACE=MonsieurBiz\SyliusOrderHistoryPlugin\Migrations
 
@@ -131,7 +131,7 @@ test.container: ## Lint the symfony container
 	${CONSOLE} lint:container
 
 test.yaml: ## Lint the symfony Yaml files
-	${CONSOLE} lint:yaml ../../recipes ../../src/Resources/config
+	${CONSOLE} lint:yaml ../../src/Resources/config --parse-tags
 
 test.schema: ## Validate MySQL Schema
 	${CONSOLE} doctrine:schema:validate
