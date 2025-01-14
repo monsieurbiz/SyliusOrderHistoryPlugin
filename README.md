@@ -11,6 +11,15 @@ machine events.
 
 ![Demo of the Order History](docs/images/demo.png)
 
+## Compatibility
+
+| Sylius Version | PHP Version |
+|---|---|
+
+| 1.11 | 8.1 - 8.2 |
+| 1.12 | 8.1 - 8.3 |
+| 1.13 | 8.1 - 8.3 |
+
 ## Installation
 
 Install the plugin via composer:
