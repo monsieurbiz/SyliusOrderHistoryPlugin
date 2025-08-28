@@ -1,0 +1,29 @@
+{% set event = hookable_metadata.context.event %}
+
+<div class="table-responsive text-secondary">
+    <table class="table table-sm table-vcenter">
+        <tbody>
+            {% for label, value in event.details|filter(v => v is not empty)  %}
+                <tr>
+                    <td class="col-4 border-0">
+                        <strong>{{ label|replace({'_': ' '})|capitalize }}</strong>
+                    </td>
+                    <td class="col-8 border-0 text-body w-full">
+                        {% if value is iterable %}
+                            <ul>
+                                {% for sublabel, subvalue in value|filter(v => v is not empty and v is not iterable)  %}
+                                    <li><strong>{{ sublabel|replace({'_': ' '})|capitalize }}</strong>: {{ subvalue }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+

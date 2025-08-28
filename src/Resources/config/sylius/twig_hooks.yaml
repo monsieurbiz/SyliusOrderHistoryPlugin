@@ -1,0 +1,64 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.order.history.content.sections':
+            monsieurbiz_multichannel_admin_order_history_content:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines.html.twig'
+                priority: 0
+
+        'sylius_admin.order.history.content.sections.timelines':
+            billing_address:
+                component: sylius_admin:monsieurbiz_order_history:order_history
+                props:
+                    orderId: '@=_context.resource.getId()'
+                    header: 'mbiz_order_history.ui.order_timeline'
+                    template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history.html.twig'
+                priority: 100
+
+        'sylius_admin.order.history.content.sections.timelines.common.side':
+            side_content:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side.html.twig'
+                priority: 0
+        'sylius_admin.order.history.content.sections.timelines.common.side.label':
+            datetime:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side/label/default.html.twig'
+                priority: 0
+        'sylius_admin.order.history.content.sections.timelines.checkout.side.label':
+            datetime:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side/label/checkout.html.twig'
+                priority: 0
+        'sylius_admin.order.history.content.sections.timelines.order.side.label':
+            datetime:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side/label/order.html.twig'
+                priority: 0
+        'sylius_admin.order.history.content.sections.timelines.payment.side.label':
+            datetime:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side/label/payment.html.twig'
+                priority: 0
+        'sylius_admin.order.history.content.sections.timelines.shipment.side.label':
+            datetime:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side/label/shipment.html.twig'
+                priority: 0
+        'sylius_admin.order.history.content.sections.timelines.common.side.datetime':
+            datetime:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/side/datetime.html.twig'
+                priority: 0
+
+        'sylius_admin.order.history.content.sections.timelines.common.main':
+            main_content:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/main.html.twig'
+                priority: 0
+
+        'sylius_admin.order.history.content.sections.timelines.common.main.identity':
+            identity:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/main/identity.html.twig'
+                priority: 0
+
+        'sylius_admin.order.history.content.sections.timelines.common.main.content':
+            content:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/main/content.html.twig'
+                priority: 0
+
+        'sylius_admin.order.history.content.sections.timelines.common.main.statuses':
+            content:
+                template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/main/statuses.html.twig'
+                priority: 0

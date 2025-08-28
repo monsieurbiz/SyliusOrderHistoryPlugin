@@ -1,0 +1,19 @@
+<div class="mb-5">
+    <div class="mb-6 border-bottom">
+        <div class="h2">
+            {{ header|trans }}
+        </div>
+    </div>
+    {% for event in order_history_events %}
+        <div class="row mb-5">
+            <div class="col-12 col-sm-4 col-md-2 text-sm-end mb-3 pe-xl-5">
+                {% hook [event.type ~ '.side', 'common.side',] with { event } %}
+            </div>
+            <div class="col-12 col-sm-8 col-md-9">
+                <div class="border bg-white p-3 rounded shadow-sm">
+                    {% hook [event.type ~ '.main', 'common.main'] with { event } %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

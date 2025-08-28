@@ -1,0 +1,7 @@
+{% set event = hookable_metadata.context.event %}
+<div class="status status-orange">
+    <div class="text-start ps-2">
+        {{ event.type|replace({'_': ' '})|capitalize }}
+    </div>
+    {{ ux_icon('tabler:truck') }}
+</div>

@@ -1,0 +1,15 @@
+{% set event = hookable_metadata.context.event %}
+<div>
+    <div>
+        {% hook ['state.' ~ event.label, 'state.default'] with { event } %}
+        <small class="text-muted d-inline-flex gap-2">
+            {% hook 'identity' with { event } %}
+        </small>
+    </div>
+    <div class="mt-2">
+        {% hook 'content' with { event } %}
+    </div>
+    <div class="mt-2 border-top border-grey pt-3">
+        {% hook 'statuses' with { event } %}
+    </div>
+</div>

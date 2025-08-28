@@ -1,0 +1,7 @@
+{% set event = hookable_metadata.context.event %}
+
+<strong>{{ 'mbiz_order_history.ui.order_states'|trans }}:</strong>
+<span >{{ ux_icon('tabler:shopping-cart') }} {{ event.checkoutState }}</span> /
+<span >{{ ux_icon('tabler:shopping-cart-check') }} {{ event.orderState }}</span> /
+<span >{{ ux_icon('tabler:truck') }} {{ event.shippingState }}</span> /
+<span >{{ ux_icon('tabler:credit-card') }} {{ event.paymentState }}</span>

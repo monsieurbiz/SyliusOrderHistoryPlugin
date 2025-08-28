@@ -5,3 +5,4 @@ mbiz_order_history:
         ip: 'IP'
         order_states: 'Status de commande'
         unkown: 'Inconnu'
+        order_timeline: 'Chronologie de la commande'
