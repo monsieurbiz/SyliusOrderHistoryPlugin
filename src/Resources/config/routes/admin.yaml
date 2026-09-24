@@ -4,7 +4,7 @@ monsieurbiz_order_history_admin_event_index:
     defaults:
         _controller: monsieurbiz_order_history.controller.order_history_event::indexAction
         _sylius:
-            template: "@MonsieurBizSyliusOrderHistoryPlugin/Admin/Order/History/Event/_list.html.twig"
+            template: '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history.html.twig'
             repository:
                 method: getByOrderId
                 arguments:

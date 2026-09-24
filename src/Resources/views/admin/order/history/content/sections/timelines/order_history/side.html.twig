@@ -1,0 +1,3 @@
+{% set event = hookable_metadata.context.event %}
+{% hook 'label' with { event } %}
+{% hook 'datetime' with { event } %}

@@ -19,8 +19,7 @@ final class OrderHistoryEventRepository extends EntityRepository implements Orde
 {
     public function getByOrderId(int|string $orderId): array
     {
-        /** phpstan-ignore-next-line */
-        return $this->createQueryBuilder('ohe')
+        return (array) $this->createQueryBuilder('ohe')
             ->andWhere('ohe.orderId = :orderId')
             ->setParameter('orderId', (int) $orderId)
             ->orderBy('ohe.createdAt', 'ASC')

@@ -16,3 +16,13 @@ services:
     MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryWithAddressesDataNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithAddressesDataNotifier'
     MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryWithPaymentDataNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithPaymentDataNotifier'
     MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryNotifierInterface $orderHistoryWithShipmentDataNotifier: '@MonsieurBiz\SyliusOrderHistoryPlugin\Notifier\OrderHistoryWithShipmentDataNotifier'
+
+    MonsieurBiz\SyliusOrderHistoryPlugin\Component\OrderHistory:
+        autoconfigure: false
+        arguments:
+            - '@monsieurbiz_order_history.repository.order_history_event'
+#            - '@form.factory'
+#            - '%monsieurbiz_cms_page.model.page.class%'
+#            - 'MonsieurBiz\SyliusCmsPagePlugin\Form\Type\PageType'
+        tags:
+            - { name: 'sylius.live_component.admin', key: 'sylius_admin:monsieurbiz_order_history:order_history' }

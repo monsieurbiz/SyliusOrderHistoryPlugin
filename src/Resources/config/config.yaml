@@ -1,6 +1,5 @@
 imports:
     - { resource: 'resources.yaml' }
     - { resource: 'messenger.yaml' }
-    - { resource: 'sylius/ui.yaml' }
-    - { resource: 'state_machine.yaml' }
+    - { resource: 'sylius/twig_hooks.yaml' }
     - { resource: 'doctrine.yaml' }

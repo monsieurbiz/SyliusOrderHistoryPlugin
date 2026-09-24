@@ -1,0 +1,10 @@
+{% set log = hookable_metadata.context.log %}
+{% set field = hookable_metadata.configuration.field %}
+{% set value = log.data[field]|default(null) %}
+
+{% if value is not empty %}
+    <tr>
+        <td class="col-4 border-0"><strong>{{ hookable_metadata.configuration.label|trans }}</strong></td>
+        <td class="col-8 border-0 text-body w-full"><span>{{ value }}</span></td>
+    </tr>
+{% endif %}

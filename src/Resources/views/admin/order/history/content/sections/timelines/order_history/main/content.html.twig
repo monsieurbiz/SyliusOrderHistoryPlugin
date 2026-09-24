@@ -1,0 +1,22 @@
+{% set event = hookable_metadata.context.event %}
+
+<div class="table-responsive text-secondary">
+    <table class="table table-sm table-vcenter">
+        <tbody>
+            {% for label, value in event.details|filter(v => v is not empty) %}
+                <tr>
+                    <td class="col-4 border-0">
+                        <strong>{{ label|replace({'_': ' '})|capitalize }}</strong>
+                    </td>
+                    <td class="col-8 border-0 text-body w-full">
+                        {% if value is iterable %}
+                            {% include '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/main/_details.html.twig' with {details: value} only %}
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

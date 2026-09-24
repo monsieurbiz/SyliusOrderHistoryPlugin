@@ -1,0 +1,12 @@
+<ul class="mb-0">
+    {% for label, value in details|filter(value => value is not empty) %}
+        <li>
+            <strong>{{ label|replace({'_': ' '})|capitalize }}</strong>:
+            {% if value is iterable %}
+                {% include '@MonsieurBizSyliusOrderHistoryPlugin/admin/order/history/content/sections/timelines/order_history/main/_details.html.twig' with {details: value} only %}
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
